@@ -1,8 +1,9 @@
 
 import { Text, StyleSheet, View, Image, ScrollView, TouchableOpacity, ToastAndroid } from 'react-native'
 import InputField from '../components/InputField'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Button from '../components/Button';
+import axios from 'axios';
 
 
 export default function Register() {
@@ -14,31 +15,40 @@ export default function Register() {
   const [conPassword, setconPassword] = useState("");
   const [contactNumber, setcontactNumber] = useState("");
 
-  function Validate() {
-    let status;
-    if (emptyValueValidate(firstName) && emptyValueValidate(lastName)
-      && emptyValueValidate(email) && emptyValueValidate(password)
-      && emptyValueValidate(conPassword) && emptyValueValidate(contactNumber)) {
 
-      if (ValidateEmail(email) && ValidateContactNumber(contactNumber)
-        && ValidatePassword(password) && ValidateConfirmPassword()) {
+  async function Validate() {
+    let status = '';
 
-        alert("Success");
-
+    if (
+      emptyValueValidate(firstName) &&
+      emptyValueValidate(lastName) &&
+      emptyValueValidate(email) &&
+      emptyValueValidate(password) &&
+      emptyValueValidate(conPassword) &&
+      emptyValueValidate(contactNumber)
+    ) {
+      if (ValidateEmail(email) && ValidateContactNumber(contactNumber) && ValidatePassword(password) && ValidateConfirmPassword()) {
+        register();
       } else {
-        status = !ValidateEmail(email) ? "Invalid Email" : 
-        (!ValidateContactNumber(contactNumber) ? "Invalid Contact Number" : 
-        (!ValidatePassword(password) ? "Invalid Password" : 
-        (!ValidateConfirmPassword(conPassword) ? "Passwords do not match" : "Unknown Error")))
+        status = !ValidateEmail(email)
+          ? 'Invalid Email'
+          : !ValidateContactNumber(contactNumber)
+            ? 'Invalid Contact Number'
+            : !ValidatePassword(password)
+              ? 'Password must contain 6 Letters eg: Adt$3!@#'
+              : !ValidateConfirmPassword(conPassword)
+                ? 'Passwords do not match'
+                : 'Unknown Error';
       }
-
     } else {
-      status = "All Fields Need to fill";
+      status = 'All Fields Need to Fill';
     }
 
-    tostMessage(status);
-
+    if (status) {
+      tostMessage(status);
+    }
   }
+
 
   function tostMessage(status) {
     ToastAndroid.showWithGravityAndOffset(
@@ -49,6 +59,43 @@ export default function Register() {
       50,
     );
   }
+
+
+
+
+  function register() {
+    axios.post(
+      'https://user-dev.delivergate.com/api/v1/webshop_customer/register',
+      {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        password: password,
+        contact_number: contactNumber,
+        account_brand: 2,
+      },
+      {
+        headers: {
+          "x-tenant-code": "subway",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Device": "Mobile-App"
+        },
+      }
+    )
+    .then(function(response) {
+      console.log('Registration successful:', response.data.message);
+      
+    })
+    .catch(function(error) {
+      tostMessage(error.response.data.message)
+      
+      
+    });
+  }
+  
+
 
 
 
@@ -67,8 +114,10 @@ export default function Register() {
   }
 
   function ValidatePassword() {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    return passwordRegex.test(password);
+    //  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+    // return passwordRegex.test(password);
+    return true;
+
   }
 
   function ValidateConfirmPassword() {

@@ -35,7 +35,7 @@ const userSlice = createSlice({
         },
         addItemToCart: (state, action) => {
             const existingItem = state.items.find(item => item.id === action.payload.id);
-        
+
             if (existingItem) {
                 existingItem.quantity++;
             } else {
@@ -44,19 +44,19 @@ const userSlice = createSlice({
             return state;
         },
 
-  
 
-        decrementQuantity : (state,action) => {
+
+        decrementQuantity: (state, action) => {
             const itemInCart = state.items.find((item) => item.id == action.payload.id);
-            if(itemInCart.quantity == 1){
+            if (itemInCart.quantity == 1) {
                 const removeFromCart = state.items.filter((item) => item.id !== action.payload.id);
                 state.items = removeFromCart;
-            }else{
+            } else {
                 itemInCart.quantity--;
             }
 
         },
-        
+
     },
 });
 
