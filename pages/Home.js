@@ -9,6 +9,7 @@ import FoodCard from '../components/FoodCard';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategory, setSelectedCategory, setData, setItemData } from '../Redux/Reducers';
+import { ITEM_URL } from "@env";
 
 
 
@@ -53,7 +54,7 @@ export default function Home() {
 
 
   function getItems() {
-    axios.get('https://pos-dev.delivergate.com/api/v1/webshop/main-menu/1/categories/webshop-brand/1/shop/2', {
+    axios.get(ITEM_URL, {
       headers: {
         'x-tenant-code': 'subway'
       }

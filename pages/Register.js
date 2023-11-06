@@ -6,7 +6,7 @@ import Button from '../components/Button';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { emptyValueValidate, ValidateEmail, ValidateConfirmPassword, ValidateContactNumber, ValidatePassword, tostMessage } from './Validations';
-
+import { REGISTER_URL , ACCOUNT_BRAND } from "@env";
 
 
 
@@ -27,6 +27,10 @@ export default function Register() {
     navigation.navigate("Login");
   };
 
+  const navToSuccess = () => {
+    navigation.navigate("Success");
+  };
+
 
   async function Validate() {
     let status = '';
@@ -39,7 +43,7 @@ export default function Register() {
       emptyValueValidate(conPassword) &&
       emptyValueValidate(contactNumber)
     ) {
-      if (ValidateEmail(email) && ValidateContactNumber(contactNumber) && ValidatePassword(password) && ValidateConfirmPassword()) {
+      if (ValidateEmail(email) && ValidateContactNumber(contactNumber) && ValidatePassword(password) && ValidateConfirmPassword(password,conPassword)) {
         register();
       } else {
         status = !ValidateEmail(email)
@@ -69,14 +73,14 @@ export default function Register() {
 
   function register() {
     axios.post(
-      'https://user-dev.delivergate.com/api/v1/webshop_customer/register',
+      REGISTER_URL,
       {
         first_name: firstName,
         last_name: lastName,
         email: email,
         password: password,
         contact_number: contactNumber,
-        account_brand: 1,
+        account_brand: ACCOUNT_BRAND,
       },
       {
         headers: {
@@ -89,7 +93,7 @@ export default function Register() {
       }
     )
       .then(function (response) {
-        console.log('Registration successful:', response.data.message);
+        navToSuccess();
 
       })
       .catch(function (error) {

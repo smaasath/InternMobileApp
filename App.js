@@ -10,6 +10,8 @@ import { Provider } from 'react-redux';
 import Store from './Redux/Store';
 import Settings from './pages/Settings';
 import Dashboard from './pages/Dashboard';
+import Success from './pages/Success';
+
 
 
 
@@ -22,12 +24,14 @@ export default function App() {
     <Provider store={Store}>
       <NavigationContainer>
         <Stack.Navigator>
+        <Stack.Screen name="Success" component={Success} options={{ headerShown: false }}/>
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
           <Stack.Screen name="Card" component={Card} />
           <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }}/>
           <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }}/>
+          
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

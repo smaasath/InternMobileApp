@@ -17,13 +17,13 @@ export function ValidateContactNumber(number) {
     return regex.test(number);
 }
 
-export  function ValidatePassword() {
+export  function ValidatePassword(password) {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
     return passwordRegex.test(password);
 
 }
 
-export  function ValidateConfirmPassword() {
+export  function ValidateConfirmPassword(password,conPassword) {
     return password === conPassword;
 }
 

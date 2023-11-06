@@ -6,6 +6,9 @@ import Button from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import { ValidateEmail, emptyValueValidate, tostMessage } from './Validations';
 import axios from 'axios';
+import { CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, ACCOUNT_BRAND, LOGIN_URL } from "@env";
+
+
 
 
 
@@ -35,6 +38,7 @@ export default function Login() {
 
     if (emptyValueValidate(email) && emptyValueValidate(password)) {
       if (ValidateEmail(email)) {
+    
         Login();
       } else {
         status = "Enter a Valid Gmail";
@@ -51,12 +55,15 @@ export default function Login() {
 
   function Login() {
     axios.post(
-      'https://user-dev.delivergate.com/api/v1/webshop_customer/login',
+      LOGIN_URL,
       {
         username: email,
         password: password,
-        grant_type: "password",
-        account_brand: 1
+        client_id:CLIENT_ID,
+        client_secret:CLIENT_SECRET,
+        grant_type:GRANT_TYPE,
+        account_brand: ACCOUNT_BRAND,
+        scope:"",
       },
       {
         headers: {

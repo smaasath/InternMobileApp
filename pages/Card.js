@@ -20,7 +20,7 @@ export default function Card() {
 
 
   }, [items]);
-  
+
   return (
 
     <ScrollView>
@@ -51,7 +51,7 @@ export default function Card() {
             <View style={styles.imagecon}>
               <TouchableOpacity onPress={() => dispatch(decrementQuantity(item))}>
                 <Image
-                  source={{ uri: "https://img.icons8.com/ios-filled/50/minus.png" }}
+                  source={{ uri: item.quantity == 1 ? "https://img.icons8.com/plasticine/100/filled-trash.png":"https://img.icons8.com/ios-filled/50/minus.png" }}
                   style={{ height: 30, width: 30 }}
                 />
               </TouchableOpacity>
