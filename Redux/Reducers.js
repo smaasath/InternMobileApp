@@ -1,11 +1,13 @@
 // userReducers.js
-import { SET_CATEGORY, SET_SELECTED_CATEGORY, SET_DATA, SET_ITEMS_DATA } from "./actions";
+import { SET_CATEGORY, SET_SELECTED_CATEGORY, SET_DATA, SET_ITEM_DATA,SET_SEARCH_TEXT ,SET_FILTERED_DATA} from "./actions";
 
 const initialState = {
     Category: [],
     SelectedCategory: "",
     data: [],
-    itemdata: "lve", 
+    itemdata: [],
+    searchtext : "",
+    filtereddata :[],
 };
 
 function userReducers(state = initialState, action) {
@@ -19,8 +21,16 @@ function userReducers(state = initialState, action) {
         case SET_DATA:
             return { ...state, data: action.payload };
 
-        case SET_ITEMS_DATA:
+        case SET_ITEM_DATA:
             return { ...state, itemdata: action.payload };
+        
+        case SET_SEARCH_TEXT:
+                return { ...state, searchtext: action.payload };
+
+        case SET_FILTERED_DATA:
+                return { ...state, filtereddata: action.payload };
+
+
 
         default:
             return state;

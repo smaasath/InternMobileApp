@@ -3,19 +3,19 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import AddToCardButton from './AddToCardButton'
 
 
-export default function FoodCard({ItemName,Description,imageUrl,Price}) {
+export default function FoodCard({ ItemName, Description, imageUrl, Price }) {
 
     return (
         <View style={styles.foodcontainer}>
             <View style={{ flex: 4 }}>
 
                 <View style={{ flex: 1, padding: 10, }}>
-                    <Text style={{ fontWeight: "bold", fontSize: 20 }}>{ItemName}</Text>
+                    <Text style={{ fontWeight: "bold", fontSize: 15 }}>{ItemName}</Text>
                 </View>
-                <View style={{ flex: 2, padding: 10, paddingTop: 0, }}>
-                    <Text style={{ fontWeight: "bold", fontSize: 10, color: "#515A5A" }}>{Description == null ? "" : Description}</Text>
+                <View style={{ flex: 3, paddingLeft: 10, paddingRight: 10, }}>
+                    <Text style={{ fontWeight: "bold", fontSize: 10, color: "#515A5A" }}>{Description == "null" ? "" : Description}</Text>
                 </View>
-                <View style={{ flexDirection: "row", flex: 2 }}>
+                <View style={{ flexDirection: "row", flex: 2, alignItems: "center", }}>
                     <View style={{ flex: 2, paddingStart: 10 }}>
                         <Text style={{ fontWeight: "bold", fontSize: 20, }}>${Price}</Text>
                     </View>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         height: null,
         width: null,
-        height: 150,
+        height: 170,
         borderRadius: 5,
         alignItems: "center",
     },

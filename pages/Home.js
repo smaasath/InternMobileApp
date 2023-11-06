@@ -15,12 +15,12 @@ import { setCategory, setSelectedCategory, setData, setItemData } from '../Redux
 
 export default function Home() {
 
-  
-  
-  const { Category, SelectedCategory, data ,itemdata} = useSelector(state => state.userRedusers);
+
+
+  const { Category, SelectedCategory, data, itemdata,filtereddata } = useSelector(state => state.userRedusers);
   const dispatch = useDispatch();
 
-  
+
 
   useEffect(() => {
 
@@ -31,23 +31,18 @@ export default function Home() {
   }, []);
 
 
-  useEffect(() => {
-
-    console.log(itemdata);
-
-
-  }, [itemdata]);
 
   useEffect(() => {
     if (data && data.hasOwnProperty(SelectedCategory)) {
       const items = data[SelectedCategory].map(entry => ({
+        id : entry.id,
         title: entry.title,
         description: entry.description,
         image_url: entry.image_url,
         price: entry.price
       }));
-      dispatch(setData("jikk"));
-      console.log("lhhhhh");
+      dispatch(setItemData(items));
+      console.log(itemdata);
 
     } else {
       console.log("No 'offers' category found in the data.");
@@ -84,7 +79,14 @@ export default function Home() {
         <View style={{ backgroundColor: "#F8F9F9" }}>
           <SearchBar></SearchBar>
           <Categories></Categories>
-          <Text></Text>
+          {filtereddata?.length > 0 && filtereddata.map((item) => (
+            <FoodCard
+              ItemName={item.title}
+              Description={item.description}
+              imageUrl={item.image_url}
+              Price={item.price}
+            />
+          ))}
         </View>
       </ScrollView>
     </>
