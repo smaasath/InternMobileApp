@@ -33,7 +33,6 @@ export default function Home() {
 
 
   useEffect(() => {
-    dispatch(setSelectedCategory(Category[0]));
     if (data && data.hasOwnProperty(SelectedCategory)) {
       const items = data[SelectedCategory].map(entry => ({
         id: entry.id,

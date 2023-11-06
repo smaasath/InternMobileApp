@@ -25,7 +25,7 @@ export default function Login() {
   const navtoHome = () => {
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Home' }],
+      routes: [{ name: 'Dashboard' }],
     });
   };
 

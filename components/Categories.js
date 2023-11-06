@@ -12,9 +12,10 @@ export default function Categories() {
     useEffect(() => {
 
         dispatch(setSelectedCategory(Category[0]));
+        console.log("hi");
     
     
-      }, []);
+      },[Category]);
 
 
     return (

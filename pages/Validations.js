@@ -1,6 +1,6 @@
 import { ToastAndroid } from "react-native";
 
-ToastAndroid
+
 
 export  function emptyValueValidate(value) {
     return value == "" ? false : true;
