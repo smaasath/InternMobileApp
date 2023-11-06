@@ -1,6 +1,6 @@
 import { Text, StyleSheet, View, Image, TouchableOpacity, TextInput } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux';
-import { setSearchText, setData, setItemData, setFilteredData } from '../Redux/actions';
+import { setSearchText, setData, setItemData, setFilteredData } from '../Redux/Reducers';
 import React, { useState, useEffect } from 'react';
 
 
@@ -10,14 +10,18 @@ export default function SearchBar() {
 
 
     const dispatch = useDispatch();
-    const { searchtext, data, itemdata } = useSelector(state => state.userRedusers);
+    const { searchtext, data, itemdata } = useSelector((state) => state.user);
 
     useEffect(() => {
 
         if(searchtext==""){
             dispatch(setFilteredData(itemdata));
         }else{
-        const filteredData = itemdata.filter(item => item.title.includes(searchtext));
+        const filteredData = itemdata.filter(item => {
+            const itemTitle = item.title.toLowerCase(); 
+            const searchTextLower = searchtext.toLowerCase();
+            return itemTitle.includes(searchTextLower);
+        });
         dispatch(setFilteredData(filteredData));
         }
 

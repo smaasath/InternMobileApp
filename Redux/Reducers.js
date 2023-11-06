@@ -1,41 +1,74 @@
-// userReducers.js
-import { SET_CATEGORY, SET_SELECTED_CATEGORY, SET_DATA, SET_ITEM_DATA,SET_SEARCH_TEXT ,SET_FILTERED_DATA} from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     Category: [],
     SelectedCategory: "",
     data: [],
     itemdata: [],
-    searchtext : "",
-    filtereddata :[],
+    searchtext: "",
+    filtereddata: [],
+    items: [],
 };
 
-function userReducers(state = initialState, action) {
-    switch (action.type) {
-        case SET_CATEGORY:
-            return { ...state, Category: action.payload };
+const userSlice = createSlice({
+    name: "user",
+    initialState,
 
-        case SET_SELECTED_CATEGORY:
-            return { ...state, SelectedCategory: action.payload };
-
-        case SET_DATA:
-            return { ...state, data: action.payload };
-
-        case SET_ITEM_DATA:
-            return { ...state, itemdata: action.payload };
+    reducers: {
+        setCategory: (state, action) => {
+            state.Category = action.payload;
+        },
+        setSelectedCategory: (state, action) => {
+            state.SelectedCategory = action.payload;
+        },
+        setData: (state, action) => {
+            state.data = action.payload;
+        },
+        setItemData: (state, action) => {
+            state.itemdata = action.payload;
+        },
+        setSearchText: (state, action) => {
+            state.searchtext = action.payload;
+        },
+        setFilteredData: (state, action) => {
+            state.filtereddata = action.payload;
+        },
+        addItemToCart: (state, action) => {
+            const existingItem = state.items.find(item => item.id === action.payload.id);
         
-        case SET_SEARCH_TEXT:
-                return { ...state, searchtext: action.payload };
-
-        case SET_FILTERED_DATA:
-                return { ...state, filtereddata: action.payload };
-
-
-
-        default:
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                state.items.push({ ...action.payload, quantity: 1 });
+            }
             return state;
-    }
-}
+        },
 
-export default userReducers;
+  
 
+        decrementQuantity : (state,action) => {
+            const itemInCart = state.items.find((item) => item.id == action.payload.id);
+            if(itemInCart.quantity == 1){
+                const removeFromCart = state.items.filter((item) => item.id !== action.payload.id);
+                state.items = removeFromCart;
+            }else{
+                itemInCart.quantity--;
+            }
+
+        },
+        
+    },
+});
+
+export const {
+    setCategory,
+    setSelectedCategory,
+    setData,
+    setItemData,
+    setSearchText,
+    setFilteredData,
+    addItemToCart,
+    decrementQuantity,
+} = userSlice.actions;
+
+export default userSlice.reducer;

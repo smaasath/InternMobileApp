@@ -8,7 +8,7 @@ import Categories from '../components/Categories';
 import FoodCard from '../components/FoodCard';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategory, setSelectedCategory, setData, setItemData } from '../Redux/actions';
+import { setCategory, setSelectedCategory, setData, setItemData } from '../Redux/Reducers';
 
 
 
@@ -17,7 +17,7 @@ export default function Home() {
 
 
 
-  const { Category, SelectedCategory, data, itemdata,filtereddata } = useSelector(state => state.userRedusers);
+  const { Category, SelectedCategory, data, itemdata, searchtext, filtereddata } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
 
@@ -35,7 +35,7 @@ export default function Home() {
   useEffect(() => {
     if (data && data.hasOwnProperty(SelectedCategory)) {
       const items = data[SelectedCategory].map(entry => ({
-        id : entry.id,
+        id: entry.id,
         title: entry.title,
         description: entry.description,
         image_url: entry.image_url,
@@ -79,14 +79,15 @@ export default function Home() {
         <View style={{ backgroundColor: "#F8F9F9" }}>
           <SearchBar></SearchBar>
           <Categories></Categories>
-          {filtereddata?.length > 0 && filtereddata.map((item) => (
+          {filtereddata?.length > 0 ?(filtereddata.map((item) => (
             <FoodCard
-              ItemName={item.title}
-              Description={item.description}
-              imageUrl={item.image_url}
-              Price={item.price}
+              item={item}
             />
-          ))}
+          ))):(
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Text style={styles.text}>No Items Found</Text>
+          </View>
+          )}
         </View>
       </ScrollView>
     </>
@@ -96,7 +97,10 @@ export default function Home() {
 
 
 const styles = StyleSheet.create({
-
+  text: {
+    fontWeight: "bold",
+    fontSize: 15
+  },
 
 
 })

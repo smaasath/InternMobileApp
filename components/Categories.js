@@ -2,12 +2,12 @@
 import { Text, StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCategory } from '../Redux/actions';
+import { setSelectedCategory } from '../Redux/Reducers';
 
 export default function Categories() {
 
     const dispatch = useDispatch();
-    const { Category, SelectedCategory } = useSelector(state => state.userRedusers);
+    const { Category, SelectedCategory } = useSelector((state) => state.user);
 
 
     return (

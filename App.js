@@ -7,7 +7,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Card from './pages/Card';
 import { Provider } from 'react-redux';
-import { Store } from './Redux/Store';
+import Store from './Redux/Store';
+
 
 
 const Stack = createNativeStackNavigator();

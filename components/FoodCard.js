@@ -1,26 +1,37 @@
 
 import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import AddToCardButton from './AddToCardButton'
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategory, setSelectedCategory, setData, setItemData, addItemToCart } from '../Redux/Reducers';
 
 
-export default function FoodCard({ ItemName, Description, imageUrl, Price }) {
+export default function FoodCard({ item }) {
+
+    const { Category, SelectedCategory, data, itemdata, searchtext, filtereddata } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () => {
+        dispatch(addItemToCart(item)); 
+      };
 
     return (
         <View style={styles.foodcontainer}>
             <View style={{ flex: 4 }}>
 
                 <View style={{ flex: 1, padding: 10, }}>
-                    <Text style={{ fontWeight: "bold", fontSize: 15 }}>{ItemName}</Text>
+                    <Text style={{ fontWeight: "bold", fontSize: 15 }}>{item.title}</Text>
                 </View>
                 <View style={{ flex: 3, paddingLeft: 10, paddingRight: 10, }}>
-                    <Text style={{ fontWeight: "bold", fontSize: 10, color: "#515A5A" }}>{Description == "null" ? "" : Description}</Text>
+                    <Text style={{ fontWeight: "bold", fontSize: 10, color: "#515A5A" }}>{item.description == "null" ? "" : item.description}</Text>
                 </View>
                 <View style={{ flexDirection: "row", flex: 2, alignItems: "center", }}>
                     <View style={{ flex: 2, paddingStart: 10 }}>
-                        <Text style={{ fontWeight: "bold", fontSize: 20, }}>${Price}</Text>
+                        <Text style={{ fontWeight: "bold", fontSize: 20, }}>${item.price}</Text>
                     </View>
                     <View style={{ flex: 2, }}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                           onPress={handleAddToCart}
+                        >
                             <AddToCardButton></AddToCardButton>
                         </TouchableOpacity>
                     </View>
@@ -30,7 +41,7 @@ export default function FoodCard({ ItemName, Description, imageUrl, Price }) {
             </View>
             <View style={{ flex: 2 }}>
                 <Image
-                    source={{ uri: imageUrl == null ? "https://assets.materialup.com/uploads/98622f57-ac59-4b44-8db2-3355bb43efed/preview.jpg" : imageUrl }}
+                    source={{ uri: item.image_url == null ? "https://assets.materialup.com/uploads/98622f57-ac59-4b44-8db2-3355bb43efed/preview.jpg" : item.image_url }}
                     style={styles.image}
                 />
             </View>
