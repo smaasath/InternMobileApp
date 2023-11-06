@@ -4,6 +4,10 @@ import InputField from '../components/InputField'
 import { useState, useEffect } from 'react'
 import Button from '../components/Button';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+import { emptyValueValidate, ValidateEmail, ValidateConfirmPassword, ValidateContactNumber, ValidatePassword, tostMessage } from './Validations';
+
+
 
 
 export default function Register() {
@@ -14,6 +18,14 @@ export default function Register() {
   const [password, setpassword] = useState("");
   const [conPassword, setconPassword] = useState("");
   const [contactNumber, setcontactNumber] = useState("");
+
+
+  const navigation = useNavigation();
+
+
+  const navToLogin = () => {
+    navigation.navigate("Login");
+  };
 
 
   async function Validate() {
@@ -50,15 +62,7 @@ export default function Register() {
   }
 
 
-  function tostMessage(status) {
-    ToastAndroid.showWithGravityAndOffset(
-      status,
-      ToastAndroid.LONG,
-      ToastAndroid.TOP,
-      2,
-      50,
-    );
-  }
+
 
 
 
@@ -72,7 +76,7 @@ export default function Register() {
         email: email,
         password: password,
         contact_number: contactNumber,
-        account_brand: 2,
+        account_brand: 1,
       },
       {
         headers: {
@@ -84,45 +88,23 @@ export default function Register() {
         },
       }
     )
-    .then(function(response) {
-      console.log('Registration successful:', response.data.message);
-      
-    })
-    .catch(function(error) {
-      tostMessage(error.response.data.message)
-      
-      
-    });
-  }
-  
+      .then(function (response) {
+        console.log('Registration successful:', response.data.message);
+
+      })
+      .catch(function (error) {
+        tostMessage(error.response.data.message)
 
 
-
-
-  function emptyValueValidate(value) {
-    return value == "" ? false : true;
+      });
   }
 
-  function ValidateEmail(value) {
-    var regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-    return regex.test(value);
-  }
 
-  function ValidateContactNumber(number) {
-    var regex = /^(?:\+94|0)(?:[0-9]{9})$/;
-    return regex.test(number);
-  }
 
-  function ValidatePassword() {
-    //  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
-    // return passwordRegex.test(password);
-    return true;
 
-  }
 
-  function ValidateConfirmPassword() {
-    return password === conPassword;
-  }
+
+
 
   return (
     <>
@@ -132,20 +114,24 @@ export default function Register() {
           <Text style={{ fontWeight: "bold", fontSize: 20 }}>Register Your Account Here</Text>
         </View>
         <View>
-          <InputField
-            url={"https://img.icons8.com/material-rounded/24/name.png"}
-            placeholder={"Enter Your First Name"}
-            inputMode={"text"}
-            onChangeText={(text) => setfirstName(text)}
-          ></InputField>
-
-          <InputField
-            url={"https://img.icons8.com/material-rounded/24/name.png"}
-            placeholder={"Enter Your last Name"}
-            inputMode={"text"}
-            onChangeText={(text) => setlastName(text)}
-          ></InputField>
-
+          <View style={{ flexDirection: "row" }}>
+            <View style={{flex:1}}>
+              <InputField
+                url={"https://img.icons8.com/material-rounded/24/name.png"}
+                placeholder={"First Name"}
+                inputMode={"text"}
+                onChangeText={(text) => setfirstName(text)}
+              ></InputField>
+            </View>
+            <View style={{flex:1,marginLeft:-25,}}>
+              <InputField
+                url={"https://img.icons8.com/material-rounded/24/name.png"}
+                placeholder={"Last Name"}
+                inputMode={"text"}
+                onChangeText={(text) => setlastName(text)}
+              ></InputField>
+            </View>
+          </View>
           <InputField
             url={"https://img.icons8.com/ios-filled/50/apple-phone.png"}
             placeholder={"Enter Your Contact Number"}
@@ -182,10 +168,22 @@ export default function Register() {
             <Button text={"Register"}></Button>
           </TouchableOpacity>
         </View>
+
+        <View style={{ flexDirection: "row", alignItems: "center", margin: 25, justifyContent: "center", }}>
+          <View>
+            <Text style={{ fontWeight: "bold", fontSize: 12 }}>Already Have an Account ?</Text>
+          </View>
+          <TouchableOpacity onPress={navToLogin}>
+            <Text style={{ color: "#115dbf", fontWeight: "bold", fontSize: 15, }}>  Login Here </Text>
+          </TouchableOpacity>
+
+        </View>
+
       </ScrollView>
     </>
   )
 }
+
 
 
 const styles = StyleSheet.create({})

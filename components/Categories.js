@@ -9,6 +9,13 @@ export default function Categories() {
     const dispatch = useDispatch();
     const { Category, SelectedCategory } = useSelector((state) => state.user);
 
+    useEffect(() => {
+
+        dispatch(setSelectedCategory(Category[0]));
+    
+    
+      }, []);
+
 
     return (
         <>

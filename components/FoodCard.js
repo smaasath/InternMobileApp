@@ -3,6 +3,8 @@ import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 import AddToCardButton from './AddToCardButton'
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategory, setSelectedCategory, setData, setItemData, addItemToCart } from '../Redux/Reducers';
+import { tostMessage } from '../pages/Validations';
+
 
 
 export default function FoodCard({ item }) {
@@ -11,7 +13,9 @@ export default function FoodCard({ item }) {
     const dispatch = useDispatch();
 
     const handleAddToCart = () => {
-        dispatch(addItemToCart(item)); 
+        dispatch(addItemToCart(item));
+        tostMessage("Item Added to Card");
+
       };
 
     return (
@@ -74,6 +78,7 @@ const styles = StyleSheet.create({
         height: null,
         width: null,
         resizeMode: 'cover',
-        borderRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomRightRadius: 5,
     },
 })

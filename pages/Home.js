@@ -33,6 +33,7 @@ export default function Home() {
 
 
   useEffect(() => {
+    dispatch(setSelectedCategory(Category[0]));
     if (data && data.hasOwnProperty(SelectedCategory)) {
       const items = data[SelectedCategory].map(entry => ({
         id: entry.id,
@@ -42,7 +43,7 @@ export default function Home() {
         price: entry.price
       }));
       dispatch(setItemData(items));
-      console.log(itemdata);
+     
 
     } else {
       console.log("No 'offers' category found in the data.");
@@ -79,15 +80,20 @@ export default function Home() {
         <View style={{ backgroundColor: "#F8F9F9" }}>
           <SearchBar></SearchBar>
           <Categories></Categories>
-          {filtereddata?.length > 0 ?(filtereddata.map((item) => (
-            <FoodCard
-              item={item}
-            />
-          ))):(
+          <View style={{ margin: 15 }}><Text style={{ fontWeight: "bold", fontSize: 20 }}>{SelectedCategory}</Text></View>
+          {filtereddata?.length > 0 ? (
+            filtereddata.map((item) => (
+              <FoodCard
+                key={item.id}
+                item={item}
+              />
+            ))
+          ) : (
             <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Text style={styles.text}>No Items Found</Text>
-          </View>
+              <Text style={styles.text}>{searchtext} Not Found</Text>
+            </View>
           )}
+
         </View>
       </ScrollView>
     </>
